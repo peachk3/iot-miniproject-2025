@@ -62,37 +62,34 @@ namespace WpfIoTSimulatorApp.Views
         private void StartSensorCheck()
         {
             // 센서 애니메이션
-            Dispatcher.Invoke(DispatcherPriority.Normal, new Action(delegate
+            DoubleAnimation sa = new DoubleAnimation
             {
-                DoubleAnimation sa = new DoubleAnimation
-                {
-                    From = 1,
-                    To = 0,
-                    Duration = TimeSpan.FromSeconds(2),
-                    AutoReverse = true
-                };
+                From = 1,
+                To = 0,
+                Duration = TimeSpan.FromSeconds(2),
+                AutoReverse = true
+            };
 
-                SortingSensor.BeginAnimation(OpacityProperty, sa);
+            SortingSensor.BeginAnimation(OpacityProperty, sa);
 
-            }));
 
-            Thread.Sleep(2000); // 1초 딜레이
-            // 랜덤으로 색상을 결정짓는 작업
-            Random rand = new Random();
-            int result = rand.Next(1, 3); // 1 ~ 3 중 하나 선별
+            //Thread.Sleep(2000); // 1초 딜레이
+            //// 랜덤으로 색상을 결정짓는 작업
+            //Random rand = new Random();
+            //int result = rand.Next(1, 3); // 1 ~ 3 중 하나 선별
 
-            switch (result)
-            {
-                case 1:
-                    Product.Fill = new SolidColorBrush(Colors.Green); // 양품
-                    break;
-                case 2:
-                    Product.Fill = new SolidColorBrush(Colors.Crimson); // 불량
-                    break;
-                case 3:
-                    Product.Fill = new SolidColorBrush(Colors.Gray); // 선별 실패
-                    break;
-            }
+            //switch (result)
+            //{
+            //    case 1:
+            //        Product.Fill = new SolidColorBrush(Colors.Green); // 양품
+            //        break;
+            //    case 2:
+            //        Product.Fill = new SolidColorBrush(Colors.Crimson); // 불량
+            //        break;
+            //    case 3:
+            //        Product.Fill = new SolidColorBrush(Colors.Gray); // 선별 실패
+            //        break;
+            //}
         }
     }
 }
