@@ -106,7 +106,7 @@ ERD
 ##### WPF 공정관리 앱 개발
 - 기본적인 DB관리 앱 + 실시간 공정 모니터링 + 리포트 시각화
 
-1. Communit
+1. CommunityToolket.Mvvm, MahApps.Metro 초기 설정
 
 #### 파이썬 AI + ASP.NET 연동
 - 
