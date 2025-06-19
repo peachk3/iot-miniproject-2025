@@ -88,6 +88,7 @@ ERD
    
 
 5. 선별결과 MQTT로 전달 기능 추가
+    <img src="../image/mp0005.png" width="600">
 
 
 ##### MQTT Subscriber
@@ -102,6 +103,8 @@ ERD
 3. EntityFramework 사용, Database 테이블 모델화(DBFirst)
 4. config.json 파일, 설정 파일 로드 클래스 작업
 5. 구독 결과
+
+    <img src="../image/mp0004.png" width="600">
 
 ##### WPF 공정관리 앱 개발
 - 기본적인 DB관리 앱 + 실시간 공정 모니터링 + 리포트 시각화
