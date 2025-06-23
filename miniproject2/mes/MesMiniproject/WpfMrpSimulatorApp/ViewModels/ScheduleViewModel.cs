@@ -2,19 +2,13 @@
 using CommunityToolkit.Mvvm.Input;
 using MahApps.Metro.Controls.Dialogs;
 using MySql.Data.MySqlClient;
-using MySqlX.XDevAPI.Common;
 using System.Collections.ObjectModel;
-using System.Configuration;
-using System.Data;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Xml;
 using WpfMrpSimulatorApp.Helpers;
 using WpfMrpSimulatorApp.Models;
 
 namespace WpfMrpSimulatorApp.ViewModels
 {
-    public partial class SettingViewModel : ObservableObject
+    public partial class ScheduleViewModel : ObservableObject
     {
         // readonly 생성자에서 할당하고 나면 그 이후에 값 변경 불가
         private readonly IDialogCoordinator dialogCoordinator;
@@ -36,8 +30,6 @@ namespace WpfMrpSimulatorApp.ViewModels
         #endregion
 
         #region View와 연동할 속성
-
-
         public bool CanSave
         {
             get => _canSave; 
@@ -117,7 +109,7 @@ namespace WpfMrpSimulatorApp.ViewModels
         }
         #endregion
 
-        public SettingViewModel(IDialogCoordinator coordinator)
+        public ScheduleViewModel(IDialogCoordinator coordinator)
         {
             this.dialogCoordinator = coordinator; // 파라미터값으로 초기화
 
@@ -176,8 +168,6 @@ namespace WpfMrpSimulatorApp.ViewModels
             // IsUpdate가 False면 신규, True면 수정
             IsUpdate = false;
 
-            CanSave = true; // 저장 버튼 활성화
-            CanRemove = false; // 이게 없으면 수정 후 신규를 눌러도 활성화되어 있음 
         }
 
         #region View 버튼클릭 메서드

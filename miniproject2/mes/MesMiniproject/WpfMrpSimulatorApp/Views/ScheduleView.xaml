@@ -1,5 +1,5 @@
 ﻿<UserControl 
-    x:Class="WpfMrpSimulatorApp.Views.SettingView"
+    x:Class="WpfMrpSimulatorApp.Views.ScheduleView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -22,9 +22,9 @@
             
         <!-- UI 구성 타이틀 -->
         <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal" Margin="2">
-            <Label Grid.Row="0" Grid.Column="0" Content="기본 설정" FontSize="14" FontWeight="Bold"
+            <Label Content="공정계획" FontSize="14" FontWeight="Bold"
                    VerticalContentAlignment="Bottom" HorizontalAlignment="Left"/>
-            <iconPacks:PackIconVaadinIcons Kind="Cog"/>
+            <iconPacks:PackIconModern Kind="Calendar"/>
         </StackPanel>
         
         <!-- UI 구성 데이터그리드 -->
@@ -40,9 +40,8 @@
             </DataGrid.Columns>
         </DataGrid>
         
-        
         <!-- UI 구성 입력 양식-->
-        <GroupBox Grid.Row="1" Grid.Column="1" Margin="3" Header="기본 설정">
+        <GroupBox Grid.Row="1" Grid.Column="1" Margin="3" Header="공정계획">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>

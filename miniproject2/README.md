@@ -116,9 +116,16 @@ ERD
 5. SettingView 화면 UI 구현
 6. SettingViewModel과 연동 작업
 7. Model DB 테이블 클래스 가져오기
+8. Settings 관련 - DB연동 조회, 입력, 수정, 삭제 기능 구현
+9. ScheduleView, ScheduleViewModel 초기 구현
+    - SettingView.xaml 복사 후 이름 변경. 클래스명 변경
+    - SettingViewModel.cs 복사 후 이른 변경, 클래스명 변경
+10. ScheduleView 데이터그리드, 입력 양식 수정
+
+    <img src="../image/mp0006.png" width="600">
 
 #### 파이썬 AI + ASP.NET 연동
-- 
+-   
 
 ### 파이널 프로젝트
 
