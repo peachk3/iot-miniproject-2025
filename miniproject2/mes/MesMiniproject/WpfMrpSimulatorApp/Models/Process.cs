@@ -1,4 +1,7 @@
-﻿namespace WpfMrpSimulatorApp.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace WpfMrpSimulatorApp.Models;
 
 public partial class Process
 {

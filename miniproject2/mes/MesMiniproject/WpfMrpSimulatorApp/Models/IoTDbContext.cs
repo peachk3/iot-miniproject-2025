@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
+using WpfMrpSimulatorApp.Helpers;
 
-namespace WpfMqttSubApp.Models;
+namespace WpfMrpSimulatorApp.Models;
 
-public partial class IotDbContext : DbContext
+public partial class IoTDbContext : DbContext
 {
-    public IotDbContext()
+    public IoTDbContext()
     {
     }
 
-    public IotDbContext(DbContextOptions<IotDbContext> options)
+    public IoTDbContext(DbContextOptions<IoTDbContext> options)
         : base(options)
     {
     }
@@ -24,7 +25,7 @@ public partial class IotDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySql("server=127.0.0.1;database=miniproject;uid=root;pwd=12345;charset=utf8", Microsoft.EntityFrameworkCore.ServerVersion.Parse("9.2.0-mysql"));
+        => optionsBuilder.UseMySql(Common.CONNSTR, Microsoft.EntityFrameworkCore.ServerVersion.Parse("9.2.0-mysql"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

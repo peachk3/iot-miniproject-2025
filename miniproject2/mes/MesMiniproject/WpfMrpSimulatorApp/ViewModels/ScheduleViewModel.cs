@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MahApps.Metro.Controls.Dialogs;
+using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
 using System.Collections.ObjectModel;
+using System.Net.Http;
 using WpfMrpSimulatorApp.Helpers;
 using WpfMrpSimulatorApp.Models;
 
@@ -12,16 +14,15 @@ namespace WpfMrpSimulatorApp.ViewModels
     {
         // readonly 생성자에서 할당하고 나면 그 이후에 값 변경 불가
         private readonly IDialogCoordinator dialogCoordinator;
+        private readonly IoTDbContext dbContext;
+
         #region View와 연동할 멤버변수들
 
-        private string _basicCode;
-        private string _codeName;
-        private string? _codeDesc;
         private DateTime? _regDt;
         private DateTime? _modDt;
 
-        private ObservableCollection<Setting> _settings;
-        private Setting _selectedSetting;
+        private ObservableCollection<ScheduleNew> _schedules;
+        private ScheduleNew _selectedSchedule;
         private bool _isUpdate;
 
         private bool _canSave;
@@ -49,22 +50,22 @@ namespace WpfMrpSimulatorApp.ViewModels
         }
 
         // View와 연동될 데이터/컬렉션
-        public ObservableCollection<Setting> Settings
+        public ObservableCollection<ScheduleNew> Schedules
         {
-            get => _settings;
-            set => SetProperty(ref _settings, value);
+            get => _schedules;
+            set => SetProperty(ref _schedules, value);
         }
 
-        public Setting SelectedSetting
+        public ScheduleNew SelectedSchedule
         {
-            get => _selectedSetting;
+            get => _selectedSchedule;
             set
             {
-                SetProperty(ref _selectedSetting, value);
+                SetProperty(ref _selectedSchedule, value);
                 // 최초에 BasicCode에 값이 있는 상태만 수정 상태
-                if(_selectedSetting != null) // 삭제 후에는 _selectedSetting 자체가 null이 됨
+                if(_selectedSchedule != null) // 삭제 후에는 _selectedSetting 자체가 null이 됨
                 {
-                    if (!string.IsNullOrEmpty(_selectedSetting.BasicCode)) // NullReferenceException 발생 가능
+                    if (_selectedSchedule.SchIdx != null) // NullReferenceException 발생 가능
                     {
                         CanSave = true;
                         CanRemove = true;
@@ -77,26 +78,6 @@ namespace WpfMrpSimulatorApp.ViewModels
         /// 기본코드
         /// 
         /// </summary>
-        public string BasicCode {
-            get => _basicCode;
-            set => SetProperty(ref _basicCode, value);
-        }
-
-        /// <summary>
-        /// 코드명
-        /// </summary>
-        public string CodeName { 
-            get => _codeName; 
-            set => SetProperty(ref _codeName, value); 
-        }
-            
-        /// <summary>
-        /// 코드 설명
-        /// </summary>
-        public string? CodeDesc { 
-            get => _codeDesc; 
-            set => SetProperty(ref _codeDesc, value); 
-        }
 
         public DateTime? RegDt { 
             get => _regDt;
@@ -112,6 +93,7 @@ namespace WpfMrpSimulatorApp.ViewModels
         public ScheduleViewModel(IDialogCoordinator coordinator)
         {
             this.dialogCoordinator = coordinator; // 파라미터값으로 초기화
+            this.dbContext = new IoTDbContext();
 
             LoadGridFromDb(); // DB에서 데이터 로드해서 그리드에 출력
             IsUpdate = true;
@@ -124,37 +106,32 @@ namespace WpfMrpSimulatorApp.ViewModels
         {
             try
             {
-                string query = @"SELECT basicCode, codeName, codeDesc, regDt, modDt  FROM settings";
-                ObservableCollection<Setting> settings = new ObservableCollection<Setting>();
-
-                // DB연동 방식 1
-                using (MySqlConnection conn = new MySqlConnection(Common.CONNSTR))
+                using (var db = new IoTDbContext())
                 {
-                    conn.Open();
-                    MySqlCommand cmd = new MySqlCommand(query, conn);
-                    MySqlDataReader reader = cmd.ExecuteReader();
+                    var results = db.Schedules
+                                    .Join(db.Settings, sch => sch.PlantCode,  setting => setting.BasicCode,
+                                    (sch, setting1) => new { sch, setting1 })
+                                    .Join(db.Settings, temp => temp.sch.SchFacilityId, setting2 => setting2.BasicCode,
+                                    (temp, setting2) => new ScheduleNew
+                                        {
+                                        SchIdx = temp.sch.SchIdx,
+                                        PlantCode = temp.sch.PlantCode,
+                                        PlantName = temp.setting1.CodeName, // 1번째 조인에서 만든 값
+                                        SchDate = temp.sch.SchDate,
+                                        LoadTime = temp.sch.LoadTime,
+                                        SchAmount = temp.sch.SchAmount,
+                                        SchStartTime = temp.sch.SchStartTime,
+                                        SchEndTime = temp.sch.SchEndTime,
+                                        SchFacilityId = temp.sch.SchFacilityId,
+                                        SchFacilityName = setting2.CodeName, // 2번째 조인에서 만든 값
+                                        RegDt = temp.sch.RegDt,
+                                        ModDt = temp.sch.ModDt,
 
-                    while (reader.Read())
-                    {
-                        var basicCode = reader.GetString("basicCode");
-                        var codeName = reader.GetString("codeName");
-                        var codeDesc = reader.GetString("codeDesc");
-                        var regDt = reader.GetDateTime("regDt");
-                        // modDt는 최초에 입력 후 항상 null. NULL 타입 체크 필수
-                        var modDt = reader.IsDBNull(reader.GetOrdinal("modDt")) ? (DateTime?)null : reader.GetDateTime("modDt");
-                        // ... 세 개 더 해야 함
-
-                        settings.Add(new Setting
-                        {
-                            BasicCode = basicCode,
-                            CodeName = codeName,
-                            CodeDesc = codeDesc,
-                            RegDt = regDt,
-                            ModDt = modDt
-                        });
-                    }
+                                        }
+                                    ).ToList();
+                    ObservableCollection<ScheduleNew> schedules = new ObservableCollection<ScheduleNew>(results);
+                    Schedules = schedules;
                 }
-                Settings = settings;
             }
             catch (Exception ex)
             {
@@ -163,7 +140,7 @@ namespace WpfMrpSimulatorApp.ViewModels
         }
         private void InitVariable()
         {
-            SelectedSetting = new Setting();
+            SelectedSchedule = new ScheduleNew();
 
             // IsUpdate가 False면 신규, True면 수정
             IsUpdate = false;
@@ -203,9 +180,9 @@ namespace WpfMrpSimulatorApp.ViewModels
                                    VALUES (@basicCode, @codeName, @codeDesc, now());"; // INSERT 쿼리
                     }
                     MySqlCommand cmd = new MySqlCommand(query, conn);
-                    cmd.Parameters.AddWithValue("@basicCode", SelectedSetting.BasicCode);
-                    cmd.Parameters.AddWithValue("@codeName", SelectedSetting.CodeName);
-                    cmd.Parameters.AddWithValue("@codeDesc", SelectedSetting.CodeDesc);
+                    //cmd.Parameters.AddWithValue("@basicCode", SelectedSetting.BasicCode);
+                    //cmd.Parameters.AddWithValue("@codeName", SelectedSetting.CodeName);
+                    //cmd.Parameters.AddWithValue("@codeDesc", SelectedSetting.CodeDesc);
 
                     var resultCnt = cmd.ExecuteNonQuery(); 
                     if (resultCnt > 0)
@@ -241,7 +218,7 @@ namespace WpfMrpSimulatorApp.ViewModels
                     conn.Open();
                     MySqlCommand cmd = new MySqlCommand(query, conn);
 
-                    cmd.Parameters.AddWithValue("@basicCode", SelectedSetting.BasicCode);
+                    //cmd.Parameters.AddWithValue("@basicCode", SelectedSetting.BasicCode);
 
                     int resultCnt = cmd.ExecuteNonQuery(); // 삭제된 쿼리행수 리턴 1, 안 지워졌으면 0
 
