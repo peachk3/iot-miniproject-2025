@@ -7,9 +7,14 @@
     xmlns:local="clr-namespace:WpfMrpSimulatorApp.Views"
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+    xmlns:helper="clr-namespace:WpfMrpSimulatorApp.Helpers"
     xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
     mc:Ignorable="d" 
     Dialog:DialogParticipation.Register="{Binding}" d:DesignHeight="335" d:DesignWidth="790">
+    <UserControl.Resources>
+        <helper:DateOnlyToDateTimeConverter x:Key="DateOnlyToDateTimeConverter" />
+    </UserControl.Resources>
+    
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="31"/>
@@ -77,14 +82,20 @@
                 
                 <ComboBox Grid.Row="1" Margin="2"
                          mah:TextBoxHelper.AutoWatermark="True"
-                         mah:TextBoxHelper.Watermark="플랜트코드"/>
+                         mah:TextBoxHelper.Watermark="플랜트코드"
+                         ItemsSource="{Binding PlantCodes}"
+                         DisplayMemberPath="CodeName" SelectedValuePath="BasicCode"
+                         SelectedValue="{Binding SelectedSchedule.PlantCode}"/>
 
                 <StackPanel Grid.Row="2" Margin="0" Orientation="Horizontal">
-                    <DatePicker Margin="2" Width="144"
-                                mah:TextBoxHelper.AutoWatermark="True"
+                    <DatePicker Margin="2" Width="145"
+                                mah:TextBoxHelper.AutoWatermark="True" 
                                 mah:TextBoxHelper.Watermark="계획일자"
-                                Text="{Binding SelectedSchedule.SchDate}"/>
-                    <mah:NumericUpDown Margin="2" Width="144"
+                                SelectedDateFormat="Short"                                
+                                SelectedDate="{Binding SelectedSchedule.SchDate, Mode=TwoWay,
+                                                Converter={StaticResource DateOnlyToDateTimeConverter}}" />     
+
+                    <mah:NumericUpDown Margin="2" Width="145"
                                        mah:TextBoxHelper.AutoWatermark="True"
                                        mah:TextBoxHelper.Watermark="로드시간(초)"
                                        mah:TextBoxHelper.WatermarkAlignment="Left"
@@ -92,20 +103,27 @@
                                        Value="{Binding SelectedSchedule.LoadTime}"/>
                 </StackPanel>
                 <StackPanel Grid.Row="3" Margin="0" Orientation="Horizontal">
-                    <mah:TimePicker Margin="2" Width="145"
+                    <ComboBox Margin="2" Width="145"
                                     mah:TextBoxHelper.AutoWatermark="True"
                                     mah:TextBoxHelper.Watermark="시작시간"
-                                    
-                                    SelectedDateTime="{Binding SelectedSchedule.SchStartTime}"/>
-                    <mah:TimePicker Margin="2" Width="145"
+                                    ItemsSource="{Binding TimeOptions}"
+                                    DisplayMemberPath="Display" SelectedValuePath="Time"
+                                    SelectedValue="{Binding SelectedSchedule.SchStartTime}"/>
+                    
+                    <ComboBox Margin="2" Width="145"
                                     mah:TextBoxHelper.AutoWatermark="True"
                                     mah:TextBoxHelper.Watermark="종료시간"
-                                    SelectedDateTime="{Binding SelectedSchedule.SchEndTime }"/>
+                                    ItemsSource="{Binding TimeOptions}"
+                                    DisplayMemberPath="Display" SelectedValuePath="Time"
+                                    SelectedValue="{Binding SelectedSchedule.SchEndTime }"/>
                 </StackPanel>
 
                 <ComboBox Grid.Row="4" Margin="2"
                           mah:TextBoxHelper.AutoWatermark="True"
-                          mah:TextBoxHelper.Watermark="설비코드"/>
+                          mah:TextBoxHelper.Watermark="설비코드"
+                          ItemsSource="{Binding FacilityIds}"
+                          DisplayMemberPath="CodeName" SelectedValuePath="BasicCode"
+                          SelectedValue="{Binding SelectedSchedule.SchFacilityId }"/>
                 
                 <mah:NumericUpDown Grid.Row="5" Margin="2"
                                    mah:TextBoxHelper.AutoWatermark="True"

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MahApps.Metro.Controls.Dialogs;
+using Org.BouncyCastle.Asn1.BC;
 using System.Windows;
 using System.Windows.Controls;
 using WpfMrpSimulatorApp.Helpers;
@@ -71,6 +72,18 @@ namespace WpfMrpSimulatorApp.ViewModels
         {
             var viewModel =  new ScheduleViewModel(Common.DIALOGVCOORDINATOR);
             var view = new ScheduleView
+            {
+                DataContext = viewModel,
+            };
+            CurrentView = view;
+        }
+
+
+        [RelayCommand]
+        public void GetMonitoring()
+        {
+            var viewModel = new MonitoringViewModel(Common.DIALOGVCOORDINATOR);
+            var view = new MonitoringView
             {
                 DataContext = viewModel,
             };
