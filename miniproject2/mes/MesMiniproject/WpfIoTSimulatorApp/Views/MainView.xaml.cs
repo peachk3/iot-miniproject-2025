@@ -61,7 +61,7 @@ namespace WpfIoTSimulatorApp.Views
             {
                 From = 1,
                 To = 0,
-                Duration = TimeSpan.FromSeconds(2),
+                Duration = TimeSpan.FromSeconds(50),
                 AutoReverse = true
             };
 

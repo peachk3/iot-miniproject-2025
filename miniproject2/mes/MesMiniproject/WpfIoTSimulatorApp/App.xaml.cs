@@ -22,11 +22,5 @@ namespace WpfIoTSimulatorApp
 
             view.ShowDialog();
         }
-
-        private void ViewModel_StartHmiRequested()
-        {
-            throw new NotImplementedException();
-        }
     }
-
 }
