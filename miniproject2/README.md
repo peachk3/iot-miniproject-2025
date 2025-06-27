@@ -145,9 +145,12 @@ ERD
     - 기본 애니메이션 가져오기
     - Start 버튼 눌러서 IoT Simulator 동작시키고 동기화
     - 체크 이후 성공/실패 결과 DB에 저장, 실시간 시각화
-    
 
-17. ReportView, ReportViewModel 작업
+#####  추후 작업
+1. ReportView, ReportViewModel 작업
+2. MainView 상태표시줄 완성
+3. 예외처리
+
 
 #### 파이썬 AI + ASP.NET 연동
 -   
