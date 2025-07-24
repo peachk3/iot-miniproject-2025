@@ -20,7 +20,7 @@ IoT 미니프로젝트 2025
         - SF는 비전, 시각화(실시간). IoT 장비, 클라우드, AI + 시스템
 
 ##### 작업 개요
-<img src="../image/mp0001.png" width="600">
+<img src="./image/mp0001.png" width="600">
 전체 구조도
 
 - IoT 디바이스 : C# 시뮬레이터로 대체, MQTT Publish 병행
@@ -28,7 +28,7 @@ IoT 미니프로젝트 2025
 - MQTT Subscriber : MQTT 데이터 수신 및 DB 저장
 - 공정관리 시스템 : WPF 공정관리 모니터링 및 계획, 리포트
 
-<img src="../image/mp0002.png" width="600">
+<img src="./image/mp0002.png" width="600">
 
 ERD
 
@@ -70,7 +70,7 @@ ERD
         - schedules - 공정계획 테이블
         - processes - 처리할 실시간 공정과정 저장 테이블
 
-    <img src="../image/mp0003.png" width="600"> 
+    <img src="./image/mp0003.png" width="600"> 
 
 
 ##### IoT 디바이스 시뮬레이터
@@ -90,7 +90,7 @@ ERD
    
 
 5. 선별결과 MQTT로 전달 기능 추가
-    <img src="../image/mp0005.png" width="600">
+    <img src="./image/mp0005.png" width="600">
 
 
 ##### MQTT Subscriber
@@ -109,7 +109,7 @@ ERD
 4. config.json 파일, 설정 파일 로드 클래스 작업
 5. 구독 결과
 
-    <img src="../image/mp0004.png" width="600">
+    <img src="./image/mp0004.png" width="600">
 
 ##### WPF 공정관리 앱 개발
 - 기본적인 DB관리 앱 + 실시간 공정 모니터링 + 리포트 시각화
@@ -127,7 +127,7 @@ ERD
     - SettingViewModel.cs 복사 후 이른 변경, 클래스명 변경
 10. ScheduleView 데이터그리드, 입력 양식 수정
 
-    <img src="../image/mp0006.png" width="600">
+    <img src="./image/mp0006.png" width="600">
 
 11. EntityFramework용 패키지 설치
     - Microsoft.EntityFrameworkCore
@@ -136,7 +136,7 @@ ERD
 
 12. ScheduleViewModel EntityFramework DB 연동 처리
 
-    <img src="../image/mp0007.png" width="600">
+    <img src="./image/mp0007.png" width="600">
 
 
 13. MonitoringView, MonitoringViewModel 생성
