@@ -68,7 +68,9 @@ https://github.com/user-attachments/assets/55dcde90-ed47-42aa-901a-88bc3b5c7e6b
 
 [소스](./conveyor_belt/cb0004.ino)
 
-https://github.com/user-attachments/assets/2d0c22fa-386c-4d27-bf93-5f36bacd49aa
+
+https://github.com/user-attachments/assets/e676168d-5b13-4f7f-b4a7-67ae63a77783
+
 
 #### MQTT 통신
 - Arduino R4 WIFI에서 통신 가능. RPi나 외부 연결이 불필요
@@ -85,7 +87,7 @@ https://github.com/user-attachments/assets/2d0c22fa-386c-4d27-bf93-5f36bacd49aa
 [소스](./conveyor_belt/cb0006.ino)
 
 
-https://github.com/user-attachments/assets/78f1c2f0-22f2-4e9b-8c8c-6ec47fe813f2
+https://github.com/user-attachments/assets/667f0d99-22f1-49cf-b352-0d3faa488bd1
 
 ### MES 소스수정
 
@@ -122,7 +124,7 @@ https://github.com/user-attachments/assets/78f1c2f0-22f2-4e9b-8c8c-6ec47fe813f2
     }
     ```
 
-https://github.com/user-attachments/assets/b25e44e1-2a77-4699-82e7-d4c422b9ecde
+https://github.com/user-attachments/assets/cfe79a4b-2c32-476e-97e6-150185c5a762
 
 
 ### 추가 진행
