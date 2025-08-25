@@ -6,29 +6,29 @@ namespace TestWebApp
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // HttpClient µî·Ï
+            // HttpClient ë“±ë¡
             builder.Services.AddHttpClient("MyWebClient", client =>
             {
-                client.BaseAddress = new Uri("http://localhost:8000");  // Python Uvcorn ¼­ºñ½º URL
+                client.BaseAddress = new Uri("http://localhost:8000");  // Python Uvcorn ì„œë¹„ìŠ¤ URL
             });
 
-            // CORS Çã¿ë
+            // CORS í—ˆìš©
             builder.Services.AddCors(options => {
-                // Å×½ºÆ® ½Ã¿¡¸¸ »ç¿ë. ¿î¿µ¶§´Â ½ÇÁ¦ ¾ÆÀÌÇÇ, ½ÇÁ¦ »ç¿ëÇÏ´Â ¸Ş¼­µå¸¸ Çã¿ëÇØÁà¾ß ÇÔ
+                // í…ŒìŠ¤íŠ¸ ì‹œì—ë§Œ ì‚¬ìš©. ìš´ì˜ë•ŒëŠ” ì‹¤ì œ ì•„ì´í”¼, ì‹¤ì œ ì‚¬ìš©í•˜ëŠ” ë©”ì„œë“œë§Œ í—ˆìš©í•´ì¤˜ì•¼ í•¨
                 options.AddDefaultPolicy(policy =>
                 {
                     policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
                 });
             });
 
-            builder.Services.AddControllers();   // ÄÁÆ®·Ñ·¯ »ç¿ë Çã¿ë
+            builder.Services.AddControllers();   // ì»¨íŠ¸ë¡¤ëŸ¬ ì‚¬ìš© í—ˆìš©
             var app = builder.Build();
 
             //app.MapGet("/", () => "Hello World!");
-            app.UseCors();              // À§¿¡¼­ ¼³Á¤ÇÑ CORS¸¦ »ç¿ëÇÏ°Ú´Ù
-            app.UseDefaultFiles();      // index.htmlÀ» ÀÚµ¿Ã³¸® ÇÏ°Ú´Ù
-            app.UseStaticFiles();       // wwwroot Æú´õ»ç¿ë Çã¿ëÇÏ°Ú´Ù
-            app.MapControllers();       // Controller ±â¹İ ¸ÅÇÎ(»ç¿ë)ÇÏ°Ú´Ù
+            app.UseCors();              // ìœ„ì—ì„œ ì„¤ì •í•œ CORSë¥¼ ì‚¬ìš©í•˜ê² ë‹¤
+            app.UseDefaultFiles();      // index.htmlì„ ìë™ì²˜ë¦¬ í•˜ê² ë‹¤
+            app.UseStaticFiles();       // wwwroot í´ë”ì‚¬ìš© í—ˆìš©í•˜ê² ë‹¤
+            app.MapControllers();       // Controller ê¸°ë°˜ ë§¤í•‘(ì‚¬ìš©)í•˜ê² ë‹¤
 
             app.Run();
         }
